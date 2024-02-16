@@ -1,4 +1,7 @@
-# Install Bitwarden CLI
+X
+===
+
+## Install Bitwarden CLI
 Link: [Bitwarden Documentation](https://bitwarden.com/help/cli/)
 
 In summary:
@@ -7,14 +10,25 @@ In summary:
 3. Move it someplace suitable in your $PATH; on Feora, I put it under `$HOME/.local/bin`.
 4. Login using `bw login`
 
-
-# Setup shell aliases
-This is purely for convenience. Add to your `.bashrc` or `.zshrc`:
+## Install the shell script
 ```bash
+wget -P $HOME/.local/bin https://github.com/guiand888/ansible-vault-bitwarden/blob/main/ansible-vault-bw.sh && chmod +x $HOME/.local/bin/ansible-vault-bw.sh
+```
+
+## Setup shell aliases (optionnal)
+This is purely for convenience, but nonethelss helps a lot.
+
+Add to your `.bashrc` or `.zshrc`:
+```bash
+# Bitwarden Vault Unlock alias
 bw-unlock() {
-    export BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION=\"\K[^\"]+')
+    BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION="\K[^"]+' | head -n 1)
 }
-ansible_vault_wrapper() {
-  cmd=(ansible-vault "--vault-password-file=./bitwarden_ansible_vault_unlock.sh" "$@")
-  "${cmd[@]}"
+
+# Ansible Vault with Bitwarden alias
+ansible-vault-bw() {
+    ansible-vault "$@" --vault-password-file="$HOME/.local/bin/ansible-vault-bw.sh"
 }
+```
+
+## Run it!

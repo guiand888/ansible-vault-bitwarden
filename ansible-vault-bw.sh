@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Use a session token to unlock your Bitwarden Vault shell-wide.
-# export BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION="\K[^"]+')
+# export BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION="\K[^"]+' | head -n 1)
 
 # Default Bitwarden secret
 BW_DEFAULT_PASS_ENTRY="ansible-vault-main"
@@ -23,13 +23,10 @@ bw_status_parsing() {
 # Check Bitwarden Vault status locked/unlocked and echo $BW_DEFAULT_PASS_ENTRY
 bw_status_check_default() {
     if [ "$bw_status" = "locked" ]; then
-        echo 'Bitwarden vault is locked.'
-        echo 'Exiting.'
         exit
     elif [ "$bw_status" = "unlocked" ]; then
-        bw get password "$BW_PASS_ENTRY"
+        bw get password "$BW_PASS_ENTRY" --session=$BW_SESSION
     else
-        echo "Status unknown. Exiting."
         exit
     fi
 }
