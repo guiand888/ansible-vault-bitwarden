@@ -25,7 +25,7 @@ bw_status_check_default() {
     if [ "$bw_status" = "locked" ]; then
         exit
     elif [ "$bw_status" = "unlocked" ]; then
-        bw get password "$BW_PASS_ENTRY" --session=$BW_SESSION
+        bw get password "$BW_PASS_ENTRY" --session="$BW_SESSION"
     else
         exit
     fi

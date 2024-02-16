@@ -22,7 +22,7 @@ Add to your `.bashrc` or `.zshrc`:
 ```bash
 # Bitwarden Vault Unlock alias
 bw-unlock() {
-    BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION="\K[^"]+' | head -n 1)
+    export BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION="\K[^"]+' | head -n 1)
 }
 
 # Ansible Vault with Bitwarden alias
