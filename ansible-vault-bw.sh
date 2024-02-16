@@ -17,7 +17,7 @@ check_runtime_var(){
 
 # Check Bitwarden status
 bw_status_parsing() {
-    bw_status=$(bw status --session "$BW_SESSION" | jq -r '.status')
+    bw_status=$(bw status --session="$BW_SESSION" | jq -r '.status')
 }
 
 # Check Bitwarden Vault status locked/unlocked and echo $BW_DEFAULT_PASS_ENTRY

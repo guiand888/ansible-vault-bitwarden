@@ -12,7 +12,7 @@ In summary:
 
 ## Install the shell script
 ```bash
-wget -P $HOME/.local/bin https://github.com/guiand888/ansible-vault-bitwarden/blob/main/ansible-vault-bw.sh && chmod +x $HOME/.local/bin/ansible-vault-bw.sh
+wget -P $HOME/.local/bin https://raw.githubusercontent.com/guiand888/ansible-vault-bitwarden/main/ansible-vault-bw.sh && chmod +x $HOME/.local/bin/ansible-vault-bw.sh
 ```
 
 ## Setup shell aliases (optionnal)
