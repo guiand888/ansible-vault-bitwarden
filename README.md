@@ -3,9 +3,10 @@ Ansible Vault password input with Bitwarden CLI
 
 Simple `bash` script facilitating the use of Bitwarden CLI to key-in `ansible-vault` passwords.
 
-Easily rids of 2 drawbacks of `ansible-vault`:
+Easily rids of multiple drawbacks of `ansible-vault`:
 - Repetitive password prompts
-- Passwords *hanging around your filesystem* in plaintext password files
+- Passwords *hanging around your filesystem* in plaintext vault password files
+- Editing vault-encrypted files - for instance, directly in VS Code - "on the fly", without password prompt and without decrypting them
 
 ![ansible-vault-bw-demo](ansible-vault-bw-demo.gif)
 
@@ -36,6 +37,7 @@ This is purely for convenience, but nonethelss helps a lot.
 Add shell aliases to your `.bashrc` or `.zshrc`: [templates](https://github.com/guiand888/ansible-vault-bitwarden).
 
 ## Run it!
+### CLI
 1. Unlock your Bitwarden password vault and set the required `$BW_SESSION` variable:
     > `bw-unlock`
 2. Run `ansible-vault-bw` or `ansible-playbook-bw` in place of the standard command.
@@ -45,8 +47,19 @@ Add shell aliases to your `.bashrc` or `.zshrc`: [templates](https://github.com/
 Demo:
 
 1. Unlock you Bitwarden vault: `bw-unlock`.
-2. Encrypt a secret: `echo "top secret" > my_secret.txt && ansible-vault-bw encrypt ./my_secret.txt`
-3. Read an existing secret: `ansible-vault-bw ./my-secret.txt`
+2. Encrypt a secret: `echo "top secret" > my_secret_file.txt && ansible-vault-bw encrypt ./my_secret_file.txt`
+3. Read an existing secret: `ansible-vault-bw ./my_secret_file.txt`
+
+### VS Code
+You can also edit encrypted files directly in VS Code, without password prompt or having to decrypt them first.  
+This limits the risk of accidentaly commiting secrets in plain text to source control.
+
+In the integrated terminal , run...  
+```bash
+EDITOR='code --wait'
+ansible-vault decrypt ./my_secret_file.txt
+```
+And your file will open in plaintext, but save in its encrypted form once you close it.
 
 ## To do:
 - [x] Add check for vault status locked/unlocked
