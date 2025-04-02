@@ -5,18 +5,19 @@ Simple `bash` script facilitating the use of Bitwarden CLI to key-in `ansible-va
 
 Easily rids of 2 drawbacks of `ansible-vault`:
 - Repetitive password prompts
-- Plaintext password hanging around in password files
+- Passwords *hanging around your filesystem* in plaintext password files
 
 ![ansible-vault-bw-demo](ansible-vault-bw-demo.gif)
 
-# Prerequisites:
+## Prerequisites:
 - `ansible` and `ansible-vault`
 - A Bitwarden account with your `ansible-vault` password saved as `ansible-vault-main`
-  - Script also supports multiple passwords if passed as first argument $1
+  - The ansible-vault secret needs to saved as the "Login" type, in the "password" field.
+  - The script also supports feeding any specific BW entry as a vault secret with the `--bw-entry` argument
 - That's it!
 
-# Steps:
-## 1. Install Bitwarden CLI
+## Steps:
+### 1. Install Bitwarden CLI
 Link: [Bitwarden Documentation](https://bitwarden.com/help/cli/)
 
 In summary:
@@ -25,36 +26,21 @@ In summary:
 3. Move it someplace suitable in your $PATH; on Feora, I put it under `$HOME/.local/bin`.
 4. Login using `bw login`
 
-## 2. Install the shell script
+### 2. Install the shell script
 ```bash
 wget -P $HOME/.local/bin https://raw.githubusercontent.com/guiand888/ansible-vault-bitwarden/main/ansible-vault-bw.sh && chmod +x $HOME/.local/bin/ansible-vault-bw.sh
 ```
 
-## 3. Setup shell aliases (optionnal)
-This is purely for convenience, but nonethelss helps a lot.
+### 3. Setup shell aliases (optionnal)
+This is purely for convenience, but nonethelss helps a lot.  
+Add shell aliases to your `.bashrc` or `.zshrc`: [templates](https://github.com/guiand888/ansible-vault-bitwarden).
 
-Add to your `.bashrc` or `.zshrc`:
-```bash
-# Bitwarden Vault Unlock alias
-bw-unlock() {
-    export BW_SESSION=$(bw unlock | grep -oP 'BW_SESSION="\K[^"]+' | head -n 1)
-}
-
-# Ansible Vault with Bitwarden alias
-ansible-vault-bw() {
-    ansible-vault "$@" --vault-password-file="$HOME/.local/bin/ansible-vault-bw.sh"
-}
-
-# Ansible Playbook with Bitwarden alias
-ansible-playbook-bw() {
-    ansible-playbook "$@" --vault-password-file="$HOME/.local/bin/ansible-vault-bw.sh"
-}
-```
-
-# Run it!
+## Run it!
 1. Unlock your Bitwarden password vault and set the required `$BW_SESSION` variable:
-  > `bw-unlock`
-2. Run `ansible-vault-bw` or `ansible-playbook-bw` in place of the standard command. 
+    > `bw-unlock`
+2. Run `ansible-vault-bw` or `ansible-playbook-bw` in place of the standard command.
+3. If you want to point to a specific Bitwarden entry:
+    > `ansible-vault-bw --bw-entry my_secret_name` 
 
 Demo:
 
@@ -62,6 +48,7 @@ Demo:
 2. Encrypt a secret: `echo "top secret" > my_secret.txt && ansible-vault-bw encrypt ./my_secret.txt`
 3. Read an existing secret: `ansible-vault-bw ./my-secret.txt`
 
-# To do:
-- [ ] Add support for multiple `ansible-vault` secrets in shell config
-- [ ] Add check for vault status locked/unlocked in shell config
+## To do:
+- [x] Add check for vault status locked/unlocked
+- [x] Add support for multiple `ansible-vault` secrets
+- [ ] Shell completion

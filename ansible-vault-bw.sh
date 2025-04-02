@@ -6,12 +6,12 @@
 # Default Bitwarden secret
 BW_DEFAULT_PASS_ENTRY="ansible-vault-main"
 
-# Check if a variable for the Bitwarden secret was provided at runtime
-check_runtime_var(){
-    if [ "$#" -eq 0 ]; then
-       BW_PASS_ENTRY="$BW_DEFAULT_PASS_ENTRY"
+# Check if a variable for the Bitwarden secret was provided via environment
+check_env_var(){
+    if [ -n "$BW_PASS_NAME" ]; then
+        BW_PASS_ENTRY="$BW_PASS_NAME"
     else
-       BW_PASS_ENTRY=$1
+        BW_PASS_ENTRY="$BW_DEFAULT_PASS_ENTRY"
     fi
 }
 
@@ -32,6 +32,6 @@ bw_status_check_default() {
 }
 
 # Run
-check_runtime_var
+check_env_var "$1"  # Pass the first argument to the function
 bw_status_parsing
 bw_status_check_default
