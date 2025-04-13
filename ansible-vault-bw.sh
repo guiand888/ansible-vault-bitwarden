@@ -16,11 +16,11 @@ BW_DEFAULT_PASS_ENTRY="ansible-vault-main"
 
 # Begin parsing command line arguments
 print_usage() {
-  echo "Usage: $0 [-e, --bw-entry BW_PASS_NAME]"
+  echo "Usage: $0 [--bw-entry BW_PASS_NAME]"
 }
 
 # Use getopt to parse the options
-PARSED=$(getopt --options he: --long help,bw-entry: --name "$0" -- "$@")
+PARSED=$(getopt --options h --long help,bw-entry: --name "$0" -- "$@")
 if [[ $? -ne 0 ]]; then
   # getopt has complained about wrong arguments
   exit 2
@@ -36,7 +36,7 @@ while true; do
       print_usage
       exit 0
       ;;
-    -e|--bw-entry)
+    --bw-entry)
       BW_PASS_NAME_CLI="$2"
       shift 2
       ;;
