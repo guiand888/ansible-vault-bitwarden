@@ -52,7 +52,7 @@ Demo:
 
 ### VS Code
 You can also edit encrypted files directly in VS Code, without password prompt or having to decrypt them first.  
-This limits the risk of accidentaly commiting secrets in plain text to source control.
+This limits the risk of accidentally commiting secrets in plain text to source control.
 
 In the integrated terminal , run...  
 ```bash
